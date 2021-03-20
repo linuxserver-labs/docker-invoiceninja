@@ -19,7 +19,6 @@ RUN \
 	npm && \
  echo "**** install runtime packages ****" && \
  apk add --no-cache  \
-	chromium \
 	mariadb-client \
 	php7 \
 	php7-bcmath \
