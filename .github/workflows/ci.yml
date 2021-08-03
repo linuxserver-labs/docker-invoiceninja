@@ -25,6 +25,34 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Prepare
+      id: prep
+      run: |
+        VERSION=dev
+        if [[ $GITHUB_REF == refs/tags/v* ]]; then
+          VERSION=${GITHUB_REF#refs/tags/}
+        fi
+        # v1.0.0
+        TAGS="${REGISTRY_IMAGE}:${VERSION}"
+        # v1.0.0,v1
+        TAGS="${TAGS},${REGISTRY_IMAGE}:${VERSION%%.*}"
+        if [[ $VERSION =~ ^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+          # :v1.0.0,:v1,:latest
+          TAGS="${TAGS},${REGISTRY_IMAGE}:latest"
+        fi
+        echo ::set-output name=tags::${TAGS}
+
+        if [ "${{github.event_name}}" == "pull_request" ]; then
+          echo ::set-output name=push::false
+          echo ::set-output name=cache_from::"type=registry,ref=${REGISTRY_IMAGE}:buildcache"
+          echo ::set-output name=cache_to::""
+        else
+          echo ::set-output name=push::true
+          echo ::set-output name=cache_from::"type=registry,ref=${REGISTRY_IMAGE}:buildcache"
+          echo ::set-output name=cache_to::"type=registry,ref=${REGISTRY_IMAGE}:buildcache,mode=max"
+        fi
+        echo ::set-output name=github_server_url::"${GITHUB_SERVER_URL}"
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
       with:
