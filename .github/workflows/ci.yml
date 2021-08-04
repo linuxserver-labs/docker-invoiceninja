@@ -24,7 +24,7 @@ jobs:
 
     - name: Set env
       run: |
-        REGISTRY_IMAGE=$(echo "ghcr.io/$GITHUB_REPOSITORY" | sed "s/docker-//")"
+        REGISTRY_IMAGE=$(echo "ghcr.io/$GITHUB_REPOSITORY" | sed "s/docker-//")
         echo ::set-env name=REGISTRY_IMAGE::"${REGISTRY_IMAGE}"
 
     - name: Prepare
