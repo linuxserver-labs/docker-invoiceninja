@@ -22,15 +22,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set env
+      run: echo "REGISTRY_IMAGE=$(echo "ghcr.io/$GITHUB_REPOSITORY" | sed 's/docker-//')" >> $GITHUB_ENV
+
     - name: Prepare
       id: prep
       run: |
-        REGISTRY_IMAGE=$(echo "ghcr.io/$GITHUB_REPOSITORY" | sed "s/docker-//")
         VERSION=dev
         if [[ $GITHUB_REF == refs/tags/v* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
         fi
-        TAGS="${REGISTRY_IMAGE}:${VERSION},${REGISTRY_NAME}:latest"
+        TAGS="${REGISTRY_IMAGE}:${VERSION},${REGISTRY_IMAGE}:latest"
         echo ::set-output name=tags::${TAGS}
 
         if [ "${{github.event_name}}" == "pull_request" ]; then
