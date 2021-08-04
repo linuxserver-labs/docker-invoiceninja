@@ -36,11 +36,11 @@ RUN \
  echo "**** install invoiceninja ****" && \
  mkdir -p /app/invoiceninja && \
  if [ -z ${INVOICENINJA_RELEASE} ]; then \
-	INVOICENINJA_RELEASE=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq '[.[].tag_name]' | while read i; do
-			if [[ "$i" == *"v5"* ]]; then
-				echo $i | sed 's/"//g' | sed 's/,//g'
-				break
-			fi
+	INVOICENINJA_RELEASE=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq '[.[].tag_name]' | while read i; do \
+			if [[ "$i" == *"v5"* ]]; then \
+				echo $i | sed 's/"//g' | sed 's/,//g' \
+				break \
+			fi \
 		done); \
  fi && \
  curl -o \
