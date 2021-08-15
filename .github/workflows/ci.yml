@@ -26,8 +26,9 @@ jobs:
       id: build_check
       run: |
         if [ "${{github.event_name}}" != "schedule" ]; then
-          echo "**** event was not cron, forcing a rebuild ****"
+          echo "**** event was not cron, rebuilding ****"
           echo ::set-output name=update_available::true
+          exit 0
         fi
 
         echo "**** Retrieving external version ****"
@@ -74,8 +75,9 @@ jobs:
         echo "**** Last pushed version: ${IMAGE_VERSION} ****"
 
         if [ "${EXT_RELEASE}" == "${IMAGE_VERSION}" ]; then
-          echo "**** Version ${EXT_RELEASE} already pushed, exiting ****"
+          echo "**** Version ${EXT_RELEASE} already pushed, not rebuilding ****"
           echo ::set-output name=update_available::false
+          exit 0
         fi
 
         echo ::set-output name=update_available::true
