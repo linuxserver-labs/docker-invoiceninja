@@ -11,6 +11,8 @@ on:
     types:
     - opened
     - reopened
+  schedule:
+    - cron:  '30 * * * *'
 
 jobs:
   build:
@@ -23,6 +25,11 @@ jobs:
     - name: Check if we should rebuild
       id: build_check
       run: |
+        if [ "${{github.event_name}}" != "schedule" ]; then
+          echo "**** event was not cron, forcing a rebuild ****"
+          echo ::set-output name=update_available::true
+        fi
+
         echo "**** Retrieving external version ****"
         EXT_RELEASE=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name')
         if [ -z "${EXT_RELEASE}" ] || [ "${EXT_RELEASE}" == "null" ]; then
@@ -98,10 +105,6 @@ jobs:
         echo ::set-output name=BUILD_DATE::$(date '+%Y-%m-%dT%H:%M:%S%:z')
         echo ::set-output name=VERSION::${VERSION}
 
-    - name: Debug
-      run: |
-        echo "${{github.event_name}}"
-
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
       with:
@@ -125,6 +128,7 @@ jobs:
 
     - name: Build and Push
       id: docker_build
+      when: ${{ steps.build_check.outputs.update_available == "true" }}
       uses: docker/build-push-action@v2
       with:
         builder: ${{ steps.buildx.outputs.name }}
