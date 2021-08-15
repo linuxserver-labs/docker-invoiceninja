@@ -18,16 +18,16 @@ jobs:
           echo "**** Branches found: ****"
           git for-each-ref --format='%(refname:short)' refs/remotes
           echo "**** Pulling the yq docker image ****"
-          docker pull ghcr.io/linuxserver-labs/yq
+          docker pull ghcr.io/linuxserver/yq
           for br in $(git for-each-ref --format='%(refname:short)' refs/remotes)
           do
             br=$(echo "$br" | sed 's|origin/||g')
             echo "**** Evaluating branch ${br} ****"
             ls_branch=$(curl -sX GET https://raw.githubusercontent.com/linuxserver-labs/docker-invoiceninja/${br}/jenkins-vars.yml \
-              | docker run --rm -i --entrypoint yq ghcr.io/linuxserver-labs/yq -r .ls_branch)
+              | docker run --rm -i --entrypoint yq ghcr.io/linuxserver/yq -r .ls_branch)
             if [ "$br" == "$ls_branch" ]; then
               echo "**** Branch ${br} appears to be live; checking workflow. ****"
-              if curl -sfX GET https://raw.githubusercontent.com/linuxserver-labs/docker-invoiceninja/${br}/.github/workflows/external_trigger.yml > /dev/null 2>&1; then
+              if curl -sfX GET https://raw.githubusercontent.com/linuxserver-labs/docker-invoiceninja/${br}/.github/workflows/ci.yml > /dev/null 2>&1; then
                 echo "**** Workflow exists. Triggering external trigger workflow for branch ${br} ****."
                 curl -iX POST \
                   -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
