@@ -22,16 +22,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set env
-      run: echo "REGISTRY_IMAGE=$(echo "ghcr.io/$GITHUB_REPOSITORY" | sed 's/docker-//')" >> $GITHUB_ENV
-
     - name: Set build date
       run: echo "BUILD_DATE=$(date '+%Y-%m-%dT%H:%M:%S%:z')" >> $GITHUB_ENV
 
     - name: Prepare
       id: prep
       run: |
-        VERSION=dev
+        REGISTRY_IMAGE=$(echo "ghcr.io/$GITHUB_REPOSITORY" | sed 's/docker-//')
+        VERSION=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name')
         if [[ $GITHUB_REF == refs/tags/v* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
         fi
@@ -50,7 +48,7 @@ jobs:
 
         echo ::set-output name=github_server_url::"${GITHUB_SERVER_URL}"
         echo ::set-output name=BUILD_DATE::$(date '+%Y-%m-%dT%H:%M:%S%:z')
-        echo ::set-output name=VERSION::$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name')
+        echo ::set-output name=VERSION::${VERSION}
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
