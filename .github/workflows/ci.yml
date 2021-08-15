@@ -130,7 +130,7 @@ jobs:
 
     - name: Build and Push
       id: docker_build
-      when: ${{ steps.build_check.outputs.update_available == "true" }}
+      if: ${{ steps.build_check.outputs.update_available == "true" }}
       uses: docker/build-push-action@v2
       with:
         builder: ${{ steps.buildx.outputs.name }}
