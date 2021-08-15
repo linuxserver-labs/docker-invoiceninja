@@ -28,9 +28,6 @@ jobs:
     - name: Set build date
       run: echo "BUILD_DATE=$(date '+%Y-%m-%dT%H:%M:%S%:z')" >> $GITHUB_ENV
 
-    - name: Set build version
-      run: echo "VERSION=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name')" >> $GITHUB_ENV
-
     - name: Prepare
       id: prep
       run: |
@@ -52,6 +49,8 @@ jobs:
         fi
 
         echo ::set-output name=github_server_url::"${GITHUB_SERVER_URL}"
+        echo ::set-output name=BUILD_DATE::$(date '+%Y-%m-%dT%H:%M:%S%:z')
+        echo ::set-output name=VERSION::$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name')
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -86,8 +85,8 @@ jobs:
         tags: ${{ steps.prep.outputs.tags }}
         build-args: |
           IMAGE_SOURCE=${{ steps.prep.outputs.github_server_url }}/${{ github.repository }}
-          BUILD_DATE=${{ BUILD_DATE }}
-          VERSION=${{ VERSION }}
+          BUILD_DATE=${{ steps.prep.outputs.BUILD_DATE }}
+          VERSION=${{ steps.prep.outputs.VERSION }}
         cache-from: ${{ steps.prep.outputs.cache_from }}
         cache-to: ${{ steps.prep.outputs.cache_to }}
 
