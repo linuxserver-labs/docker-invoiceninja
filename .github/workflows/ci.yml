@@ -25,6 +25,12 @@ jobs:
     - name: Set env
       run: echo "REGISTRY_IMAGE=$(echo "ghcr.io/$GITHUB_REPOSITORY" | sed 's/docker-//')" >> $GITHUB_ENV
 
+    - name: Set build date
+      run: echo "BUILD_DATE=$(date '+%Y-%m-%dT%H:%M:%S%:z')" >> $GITHUB_ENV
+
+    - name: Set build version
+      run: echo "VERSION=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name')" >> $GITHUB_ENV
+
     - name: Prepare
       id: prep
       run: |
@@ -80,6 +86,8 @@ jobs:
         tags: ${{ steps.prep.outputs.tags }}
         build-args: |
           IMAGE_SOURCE=${{ steps.prep.outputs.github_server_url }}/${{ github.repository }}
+          BUILD_DATE=${BUILD_DATE}
+          VERSION=${VERSION}
         cache-from: ${{ steps.prep.outputs.cache_from }}
         cache-to: ${{ steps.prep.outputs.cache_to }}
 
