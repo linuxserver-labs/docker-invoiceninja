@@ -86,8 +86,8 @@ jobs:
         tags: ${{ steps.prep.outputs.tags }}
         build-args: |
           IMAGE_SOURCE=${{ steps.prep.outputs.github_server_url }}/${{ github.repository }}
-          BUILD_DATE=${BUILD_DATE}
-          VERSION=${VERSION}
+          BUILD_DATE=${{ BUILD_DATE }}
+          VERSION=${{ VERSION }}
         cache-from: ${{ steps.prep.outputs.cache_from }}
         cache-to: ${{ steps.prep.outputs.cache_to }}
 
