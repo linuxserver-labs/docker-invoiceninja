@@ -88,6 +88,23 @@ jobs:
         if [[ $GITHUB_REF == refs/tags/v* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
         fi
+
+        SEMVER=$(date '+%Y.%m.%d')
+        semver_regex='([0-9]+)\.([0-9]+)\.([0-9]+)$'
+        if [[ $VERSION =~ $semver_regex ]]; then
+            SEMVER="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.${BASH_REMATCH[3]}"
+        else
+            semver_regex='([0-9]+)\.([0-9]+)(\.([0-9]+))?.*'
+            if [[ $VERSION =~ $semver_regex ]]; then
+                echo 'here'
+                if [[ ${BASH_REMATCH[4]} ]]; then
+                    SEMVER="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.${BASH_REMATCH[4]}"
+                else
+                    SEMVER="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.$(date '+%Y%m%d')"
+                fi
+            fi
+        fi
+
         TAGS="${REGISTRY_IMAGE}:${VERSION},${REGISTRY_IMAGE}:latest"
         echo ::set-output name=tags::${TAGS}
 
