@@ -105,7 +105,7 @@ jobs:
             fi
         fi
 
-        TAGS="${REGISTRY_IMAGE}:${VERSION},${REGISTRY_IMAGE}:latest"
+        TAGS="${REGISTRY_IMAGE}:${VERSION},${REGISTRY_IMAGE}:latest,${REGISTRY_IMAGE}:${SEMVER}"
         echo ::set-output name=tags::${TAGS}
 
         if [ "${{github.event_name}}" == "pull_request" ]; then
