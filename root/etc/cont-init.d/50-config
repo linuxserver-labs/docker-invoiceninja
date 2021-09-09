@@ -31,10 +31,10 @@ php artisan optimize
 crontab -u abc /defaults/crontabs/abc
 
 # permissions
-# permissions
+CORES=$(nproc --all)
 find \
-	/config \
 	/app/invoiceninja \
-	! -user abc -o ! -group abc -exec chown abc:abc {} \;
+	! -user abc ! -group abc -print0 | \
+	xargs -P $((CORES*2*16)) -I {} chown abc:abc {}
 
 find /config ! -perm -g+w -exec chmod g+w {} \;
