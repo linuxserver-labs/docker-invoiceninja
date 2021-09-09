@@ -31,7 +31,7 @@ php artisan optimize
 crontab -u abc /defaults/crontabs/abc
 
 # permissions
-find . -maxdepth 1 ! -name '.' ! -name '..' ! -name 'vendor' -exec chown -R abc:abc {} \;
+find . -maxdepth 1 ! -name '.' ! -name '..' ! -name 'vendor' -print -exec chown -R abc:abc {} \;
 chown -R abc:abc \
 	/config
 chown abc:abc \
