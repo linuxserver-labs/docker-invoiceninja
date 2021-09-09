@@ -58,6 +58,8 @@ RUN \
   rm -rf /app/invoiceninja/vendor/beganovich/snappdf/versions && \
   echo "**** setting permissions ****" && \
   chown -R abc:abc /app/invoiceninja && \
+  echo "**** overlay-fs workaround ****" && \
+  mv /app /app-tmp && \
   echo "**** cleanup ****" && \
   apk del --purge \
     build-dependencies && \

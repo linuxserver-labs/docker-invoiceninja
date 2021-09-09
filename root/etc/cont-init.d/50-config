@@ -1,5 +1,11 @@
 #!/usr/bin/with-contenv bash
 
+if [ -d /app-tmp ]; then
+    echo "New container detected. Setting up app folder and fixing permissions."
+    mv /app-tmp /app
+    chown -R abc:abc /app
+fi
+
 cd /app/invoiceninja
 
 # copy config
@@ -30,10 +36,4 @@ php artisan optimize
 # install crontab
 crontab -u abc /defaults/crontabs/abc
 
-# permissions
-CORES=$(nproc --all)
-find \
-	/app/invoiceninja \
-	/config \
-	! -user abc ! -group abc -print0 | \
-	xargs -P $((CORES*2*16)) -I {} chown abc:abc {}
+chown -R abc:abc /config
