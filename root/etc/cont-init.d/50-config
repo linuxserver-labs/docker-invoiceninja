@@ -31,9 +31,10 @@ php artisan optimize
 crontab -u abc /defaults/crontabs/abc
 
 # permissions
-find . -maxdepth 1 ! -name '.' ! -name '..' ! -name 'vendor' -print -exec chown -R abc:abc {} \;
-chown -R abc:abc \
-	/config
-chown abc:abc \
-	/app \
-	/app/invoiceninja
+# permissions
+find \
+	/config \
+	/app/invoiceninja \
+	! -user abc -o ! -group abc -exec chown abc:abc {} \;
+
+find /config ! -perm -g+w -exec chmod g+w {} \;

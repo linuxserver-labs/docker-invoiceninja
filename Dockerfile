@@ -56,6 +56,8 @@ RUN \
     --no-interaction && \
   echo "**** removing unused chrome download ****" && \
   rm -rf /app/invoiceninja/vendor/beganovich/snappdf/versions && \
+  echo "**** setting permissions ****" && \
+  chown -R abc:abc /app/invoiceninja && \
   echo "**** cleanup ****" && \
   apk del --purge \
     build-dependencies && \
