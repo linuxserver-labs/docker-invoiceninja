@@ -47,7 +47,7 @@ RUN \
 	 /app/invoiceninja/ --strip-components=1 && \
  cd /app/invoiceninja && \
  npm install --production && \
- npm run prod && \
+ npm run production && \
  echo "**** install composer dependencies ****" && \
  composer install \
  	-d /app/invoiceninja \
