@@ -1,7 +1,7 @@
 <!--- Provide a general summary of your changes in the Title above -->
 
 [linuxserverurl]: https://linuxserver.io
-[![linuxserver.io](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/linuxserver_medium.png)][linuxserverurl]
+[![linuxserver.io](https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/lsio-labs-wide.png)](https://linuxserver.io)
 
 
 <!--- Before submitting a pull request please check the following -->
@@ -21,7 +21,7 @@
 
 ------------------------------
 
- - [ ] I have read the [contributing](https://github.com/linuxserver/docker-invoiceninja/blob/master/.github/CONTRIBUTING.md) guideline and understand that I have made the correct modifications
+ - [ ] I have read the [contributing](https://github.com/linuxserver-labs/docker-invoiceninja/blob/master/.github/CONTRIBUTING.md) guideline and understand that I have made the correct modifications
 
 ------------------------------
 

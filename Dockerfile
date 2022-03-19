@@ -40,7 +40,7 @@ RUN \
     INVOICENINJA_RELEASE=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name'); \
   fi && \
   curl -o \
-     /tmp/invoiceninja.tar.gz -L \
+    /tmp/invoiceninja.tar.gz -L \
     "https://github.com/invoiceninja/invoiceninja/archive/${INVOICENINJA_RELEASE}.tar.gz" && \
   tar xf \
   /tmp/invoiceninja.tar.gz -C \
