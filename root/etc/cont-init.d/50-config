@@ -10,12 +10,12 @@ cd /app/invoiceninja
 
 # copy config
 [[ ! -e /config/user.ini ]] && \
-	cp /defaults/user.ini /config/user.ini
+    cp /defaults/user.ini /config/user.ini
 cp /config/user.ini /etc/php7/conf.d/99-user.ini
 
 # handle storage directory
 [[ ! -e "/config/storage" ]] && \
-	mv /app/invoiceninja/storage /config/
+    mv /app/invoiceninja/storage /config/
 
 rm -rf /app/invoiceninja/storage
 ln -s /config/storage /app/invoiceninja/storage
@@ -23,7 +23,7 @@ mkdir -p /config/storage/app/public
 
 # check for .env and copy default if needed
 if [ ! -f "/config/.env" ]; then
-	cp /app/invoiceninja/.env.example /config/.env
+    cp /app/invoiceninja/.env.example /config/.env
 fi
 
 ln -sf /config/.env /app/invoiceninja/.env
