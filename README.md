@@ -35,6 +35,9 @@ Find us at:
 [![GitHub Stars](https://img.shields.io/github/stars/linuxserver-labs/docker-invoiceninja.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/linuxserver-labs/docker-invoiceninja)
 [![GitHub Release](https://img.shields.io/github/release/linuxserver-labs/docker-invoiceninja.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/linuxserver-labs/docker-invoiceninja/releases)
 [![GitHub Package Repository](https://img.shields.io/static/v1.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=linuxserver.io&message=GitHub%20Package&logo=github)](https://github.com/linuxserver-labs/docker-invoiceninja/packages)
+[![ci](https://img.shields.io/github/workflow/status/linuxserver-labs/docker-invoiceninja/Check%20for%20update%20and%20release.svg?labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github&label=Check%20For%20Upstream%20Updates)](https://github.com/linuxserver-labs/docker-invoiceninja/actions/workflows/call-chck-and-release.yml)
+[![ci](https://img.shields.io/github/workflow/status/linuxserver-labs/docker-invoiceninja/Check%20for%20base%20image%20updates.svg?labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github&label=Check%20For%20Baseimage%20Updates)](https://github.com/linuxserver-labs/docker-invoiceninja/actions/workflows/call-baseimage-update.yml)
+[![ci](https://img.shields.io/github/workflow/status/linuxserver-labs/docker-invoiceninja/Build%20Image%20On%20Release.svg?labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github&label=Build%20Image)](https://github.com/linuxserver-labs/docker-invoiceninja/actions/workflows/call-build-image.yml)
 
 [Invoiceninja](https://www.invoiceninja.org/) is an invoicing application that makes sending invoices and receiving payments simple and easy."
 
