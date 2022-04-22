@@ -3,7 +3,7 @@ FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.13
 # set version label
 ARG BUILD_DATE
 ARG VERSION
-ARG INVOICENINJA_RELEASE
+ARG APP_VERSION
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="alex-phillips"
 
@@ -36,12 +36,12 @@ RUN \
     php7-zip && \
   echo "**** install invoiceninja ****" && \
   mkdir -p /app/invoiceninja && \
-  if [ -z ${INVOICENINJA_RELEASE} ]; then \
-    INVOICENINJA_RELEASE=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name'); \
+  if [ -z ${APP_VERSION} ]; then \
+    APP_VERSION=$(curl -s https://api.github.com/repos/invoiceninja/invoiceninja/releases | jq -rc 'limit(1;.[] | select( .target_commitish | match("v5-stable"))) .tag_name'); \
   fi && \
   curl -o \
     /tmp/invoiceninja.tar.gz -L \
-    "https://github.com/invoiceninja/invoiceninja/archive/${INVOICENINJA_RELEASE}.tar.gz" && \
+    "https://github.com/invoiceninja/invoiceninja/archive/${APP_VERSION}.tar.gz" && \
   tar xf \
   /tmp/invoiceninja.tar.gz -C \
     /app/invoiceninja/ --strip-components=1 && \
